@@ -25,7 +25,7 @@ public class Settings : MonoBehaviour
     public float Sensitivity { get => sensitivity; set => sensitivity = value; }
     public bool InvertY { get => invertY; set => invertY = value; }
     public float BgmVolume { get => bgmVolume; set => bgmVolume = value; }
-    public float SeVolume { get => seVolume; set => seVolume = value; }
+    public float SEVolume { get => seVolume; set => seVolume = value; }
     #endregion
 
     private void Awake()

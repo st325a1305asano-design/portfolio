@@ -3,9 +3,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// ボタンで呼ぶ関数
+/// タイトル画面などにおける各ボタンのクリックイベント
+/// （UIインタラクション）を処理するクラス
 /// </summary>
-public class Button : MonoBehaviour
+public class ButtonEventHandler : MonoBehaviour
 {
     //変数の宣言
     [SerializeField] GameObject creditPanel; //クレジットパネル

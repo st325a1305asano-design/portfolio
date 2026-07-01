@@ -12,7 +12,14 @@ public class SEManager : MonoBehaviour
 
     [SerializeField] AudioClip cleanSE; //ê¨å˜SE
     [SerializeField] AudioClip failSE; //é∏îsSE
+
     #endregion
+
+    private enum SEType
+    {
+        Success, //ê¨å˜
+        Failure //é∏îs
+    }
 
     private void Start()
     {
@@ -32,13 +39,13 @@ public class SEManager : MonoBehaviour
     /// SEçƒê∂ 0:ë|èúê¨å˜ 1:ë|èúé∏îs
     /// </summary>
     /// <param name="num"></param>
-    public void SEPlay(int num)
+    public void SEPlay(SEType type)
     {
-        if (num == 0)
+        if (type == SEType.Success)
         {
             audioSource.PlayOneShot(cleanSE);
         }
-        else if(num == 1)
+        else if(type == SEType.Failure)
         {
             audioSource.PlayOneShot(failSE);
         }

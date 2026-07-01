@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 /// <summary>
 /// チュートリアル管理
 /// </summary>
-public class SubjectUIController : MonoBehaviour
+public class TutorialUIController : MonoBehaviour
 {
     #region 変数の宣言
     [SerializeField] TextMeshProUGUI subjectText; //目的や忠告を表示するためのテキスト

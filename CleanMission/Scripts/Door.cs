@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
     public Animator animator;           // ← アニメーション用
     public bool isOpen = false;
     public bool isLivingDoor = false; // ← 追加
-    public bool isClosetDoor = false;
+    public bool isClosetDoor1 = false;
     public bool isClosetDoor2 = false;
 
 
@@ -43,7 +43,7 @@ public class Door : MonoBehaviour
         }
 
         // ② Closet 用アニメーション
-        if (isClosetDoor)
+        if (isClosetDoor1)
         {
             animator.Play(isOpen ? "DoorCloset" : "DoorClosetClose");
             return;

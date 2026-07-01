@@ -20,6 +20,10 @@ public class SettingsUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI seText; //SE音量表示テキスト
     #endregion
 
+    [SerializeField] float maxBGMVolume = 100;
+    [SerializeField] float maxSEVolume = 100;
+
+
     void Start()
     {
         //カメラ反転の連携
@@ -43,8 +47,8 @@ public class SettingsUIController : MonoBehaviour
     {
         //数値をテキストに表示
         sensitivityText.text = SettingsManager.Instance.sensitivity.ToString("F0");
-        bgmText.text = (SettingsManager.Instance.bgmVolume * 100).ToString("F0") + "%";
-        seText.text = (SettingsManager.Instance.seVolume * 100).ToString("F0") + "%";
+        bgmText.text = (SettingsManager.Instance.bgmVolume * maxBGMVolume).ToString("F0") + "%";
+        seText.text = (SettingsManager.Instance.seVolume * maxSEVolume).ToString("F0") + "%";
 
     }
 

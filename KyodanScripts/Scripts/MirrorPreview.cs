@@ -29,6 +29,9 @@ public class MirrorPreview : MonoBehaviour
 
     const float Half = 0.5f; //中央座標を計算するための半分値
     const float DeadZone = 0.01f; //閾値
+
+    [SerializeField] float debugRayLength = 2f;
+
     #endregion
 
     #region ゲッター
@@ -127,7 +130,7 @@ public class MirrorPreview : MonoBehaviour
         }
 
         //Debug.Log(hit.point);
-        Debug.DrawRay(ray.origin, ray.direction * 20,Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * debugRayLength, Color.red);
         //Debug.Log(screenCenter);
         Debug.Log($"CamPos={mainCamera.transform.position}");
 

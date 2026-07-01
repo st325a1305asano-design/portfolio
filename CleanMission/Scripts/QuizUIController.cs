@@ -16,7 +16,7 @@ public class QuizUIController : MonoBehaviour
 
     [Header("Panel")]
     [SerializeField] GameObject panel; //パネル
-    [SerializeField] Image dirtImage;  //汚れ画像1
+    [SerializeField] Image dirtImage1;  //汚れ画像1
     [SerializeField] Image dirtImage2; //汚れ画像2
 
     [Header("UI")]
@@ -28,9 +28,11 @@ public class QuizUIController : MonoBehaviour
 
     Dirt currentDirt; //インタラクト中の汚れ
     bool isCleaning = false; //掃除中
-    bool isPlaingQuiz = false; //クイズ中
+    bool isPlayingQuiz = false; //クイズ中
 
-    Vector3 imagePos = new Vector3 (0, 55, 0); //汚れ画像が一枚の時の画像位置
+    [SerializeField]
+    Vector3 imagePos1 = new Vector3 (0, 55, 0); //汚れ画像が一枚の時の画像位置
+    [SerializeField]
     Vector3 imagePos2 = new Vector3(320, 55, 0); //汚れ画像が二枚の時の画像位置
 
     float wait = 3f; //結果表示時間
@@ -38,8 +40,15 @@ public class QuizUIController : MonoBehaviour
     [SerializeField] GameObject[] quizButtonsGO; //クイズボタンを入れる配列
     #endregion
 
+    enum DirtImageState
+{
+    BeforeCleaning, // 掃除前
+    Cleaning,       // 掃除中
+    Cleaned         // 掃除後
+}
+
     //クイズ中かのゲッター
-    public bool IsPlayingQuiz => isPlaingQuiz;
+    public bool IsPlayingQuiz => isPlayingQuiz;
 
     private void Awake()
     {
@@ -59,11 +68,11 @@ public class QuizUIController : MonoBehaviour
 
         panel.SetActive(true); //パネル表示
 
-        isPlaingQuiz = true; //クイズ中
+        isPlayingQuiz = true; //クイズ中
 
         gauge.gameObject.SetActive(false); //ゲージ非表示
 
-        ShowImage(0, currentDirt.hasSecondImage); //画像表示
+        ShowImage(DirtImageState.BeforeCleaning, currentDirt.hasSecondImage); //画像表示
 
         ActiveQuizButton(true); //クイズボタン表示
 
@@ -124,7 +133,7 @@ public class QuizUIController : MonoBehaviour
         isCleaning = true; //掃除中
         resultText.text = "掃除中..."; //掃除中表示
 
-        ShowImage(1, currentDirt.hasSecondImage); //画像表示
+        ShowImage(DirtImageState.Cleaning, currentDirt.hasSecondImage); //画像表示
 
         gauge.gameObject.SetActive(true); //ゲージ表示
 
@@ -146,16 +155,16 @@ public class QuizUIController : MonoBehaviour
         if (success)
         {
             resultText.text = "掃除成功！"; //成功時のテキスト
-            ShowImage(2, currentDirt.hasSecondImage); //画像表示
+            ShowImage(DirtImageState.Cleaned, currentDirt.hasSecondImage); //画像表示
 
-            SEManager.Instance.SEPlay(0); //成功した効果音再生
+            SEManager.Instance.SEPlay(SEManager.SEType.Success); //成功した効果音再生
         }
         else
         {
             resultText.text = "もう一度挑戦しよう"; //失敗時のテキスト
-            ShowImage(0, currentDirt.hasSecondImage); //画像表示
+            ShowImage(DirtImageState.BeforeCleaning, currentDirt.hasSecondImage); //画像表示
 
-            SEManager.Instance.SEPlay(1); //失敗した効果音再生
+            SEManager.Instance.SEPlay(SEManager.SEType.Failure); //失敗した効果音再生
         }
 
 
@@ -171,33 +180,37 @@ public class QuizUIController : MonoBehaviour
     {
         panel.SetActive(false); //パネル非表示
         isCleaning = false; //非掃除中
-        isPlaingQuiz = false; //クイズ終了
+        isPlayingQuiz = false; //クイズ終了
 
         //ゲームが終了してなければ
         if (!GameManager.Instance.GetIsGameOver())
         {
             //プレイヤー復帰
-            FindAnyObjectByType<PlayerController>().ChangeStates(0);
+            PlayerController pc =  FindAnyObjectByType<PlayerController>();
+            if(pc != null)
+            {
+                pc.ChangeStates(PlayerController.ChangeStates(PlayerController.PlayerStates.Idle));
+            }
         }
     }
 
     /// <summary>
-    /// 画像表示 0:掃除前 1:掃除中 2:掃除後
+    /// 画像表示 掃除前 掃除中 掃除後
     /// </summary>
     /// <param name="state"></param>
     /// <param name="hasSecondImage"></param>
-    void ShowImage(int state, bool hasSecondImage)
+    void ShowImage(DirtImageState state, bool hasSecondImage)
     {
         //掃除前なら
-        if (state == 0)
+        if (state == DirtImageState.BeforeCleaning)
         {
-            dirtImage.sprite = currentDirt.dirtImage; //画像表示
+            dirtImage1.sprite = currentDirt.dirtImage; //画像表示
 
             //汚れ画像が二枚あるとき
             if (currentDirt.hasSecondImage)
             {
                 //画像位置調整
-                dirtImage.transform.localPosition = new Vector3(-imagePos2.x, imagePos2.y);
+                dirtImage1.transform.localPosition = new Vector3(-imagePos2.x, imagePos2.y);
                 dirtImage2.transform.localPosition = imagePos2;
 
                 dirtImage2.gameObject.SetActive(true); //二枚目の画像表示
@@ -206,30 +219,30 @@ public class QuizUIController : MonoBehaviour
             else
             {
                 //画像位置調整
-                dirtImage.transform.localPosition = imagePos;
+                dirtImage1.transform.localPosition = imagePos1;
 
                 dirtImage2.gameObject.SetActive(false); //画像非表示
             }
         }
         //掃除中なら
-        else if (state == 1)
+        else if (state == DirtImageState.Cleaning)
         {
-            dirtImage.transform.localPosition = imagePos; //画像位置調整
+            dirtImage1.transform.localPosition = imagePos1; //画像位置調整
 
             dirtImage2.gameObject.SetActive(false); //画像非表示
 
-            dirtImage.sprite = currentDirt.cleaningImage; //掃除中画像表示
+            dirtImage1.sprite = currentDirt.cleaningImage; //掃除中画像表示
         }
         //掃除後なら
-        else if (state == 2)
+        else if (state == DirtImageState.Cleaned)
         {
-            dirtImage.sprite = currentDirt.cleanedImage; //画像表示
+            dirtImage1.sprite = currentDirt.cleanedImage; //画像表示
 
             //汚れ画像が二枚あるとき
             if (currentDirt.hasSecondImage)
             {
                 //画像位置調整
-                dirtImage.transform.localPosition = new Vector3(-imagePos2.x, imagePos2.y);
+                dirtImage1.transform.localPosition = new Vector3(-imagePos2.x, imagePos2.y);
                 dirtImage2.transform.localPosition = imagePos2;
 
                 dirtImage2.gameObject.SetActive(true); //二枚目の画像表示
@@ -238,7 +251,7 @@ public class QuizUIController : MonoBehaviour
             else
             {
                 //画像位置調整
-                dirtImage.transform.localPosition = imagePos;
+                dirtImage1.transform.localPosition = imagePos1;
 
                 dirtImage2.gameObject.SetActive(false); //画像非表示
             }

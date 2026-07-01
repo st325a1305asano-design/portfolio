@@ -25,4 +25,11 @@ public class Enums : MonoBehaviour
         Playing = 0,
         Stop = 1
     }
+
+    public enum ActionMaps
+    {
+        UI,
+        PlayerAction,
+        Create //Ç¢ÇÈÇ©Ç»ÅH
+    }
 }

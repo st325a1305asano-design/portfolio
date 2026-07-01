@@ -20,7 +20,22 @@ public class ResultUIController : MonoBehaviour
 
     [Header("Image")]
     [SerializeField] Image image; //お客さん表示用Image
-    [SerializeField] Sprite customer; //お客さんイラスト
+    [SerializeField] Sprite customerSprite; //お客さんイラスト
+
+    [SerializeField] Vector2 spriteSize = new Vector2(0.5f, 0.5f);
+
+    [SerializeField] float rateS = 1.0f;
+    [SerializeField] string rateSFeedback = "ありがとう！ 見違えるぐらいとってもきれいになったよ！\n" +
+                                    "また次もよろしく!";
+    [SerializeField] float rateA = 0.6f;
+    [SerializeField] string rateAFeedback = "おかげさまできれいになったよ！ ありがとう！\n" +
+                                    "またお願いしようかな...！";
+    [SerializeField] float rateB = 0;
+    [SerializeField] string rateBFeedback = "まだ残ってる汚れは次のときにお願いしようかな！\n" +
+                                    "きれいにしてくれてありがとう";
+
+     [SerializeField] string rateCFeedback = "汚れはたくさんあるからね　これからに期待だね";
+
     #endregion
 
     private void Awake()
@@ -40,9 +55,9 @@ public class ResultUIController : MonoBehaviour
     {
         resultPanel.SetActive(true); //パネル表示
 
-        image.sprite = customer; //お客さんの画像にする
+        image.sprite = customerSprite; //お客さんの画像にする
         image.SetNativeSize();
-        image.transform.localScale = new Vector2(0.5f, 0.5f);
+        image.transform.localScale = spriteSize;
 
         evaluationText.color = Color.black; //文字を黒色に
 
@@ -51,24 +66,21 @@ public class ResultUIController : MonoBehaviour
         Debug.Log(rate);
 
         //成功率に応じて評価
-        if (rate >= 1)
+        if (rate >= rateS)
         {
-            evaluationText.text = "ありがとう！ 見違えるぐらいとってもきれいになったよ！\n" +
-                                    "また次もよろしく!";
+            evaluationText.text = rateSFeedback;
         }
-        else if(rate >= 0.6)
+        else if(rate >= rateA)
         {
-            evaluationText.text = "おかげさまできれいになったよ！ ありがとう！\n" +
-                                    "またお願いしようかな...！";
+            evaluationText.text = rateAFeedback;
         }
-        else if(rate > 0)
+        else if(rate > rateB)
         {
-            evaluationText.text = "まだ残ってる汚れは次のときにお願いしようかな！\n" +
-                                    "きれいにしてくれてありがとう";
+            evaluationText.text = rateBFeedback;
         }
-        else if(rate <= 0)
+        else if(rate <= rateB)
         {
-            evaluationText.text = "汚れはたくさんあるからね　これからに期待だね";
+            evaluationText.text = rateCFeedback;
         }
 
         scoreText.color = Color.black; //文字を黒色に

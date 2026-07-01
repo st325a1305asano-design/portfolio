@@ -8,6 +8,8 @@ public class Mirror : MonoBehaviour
     #region 変数の宣言
     [Header("鏡の反射強度(1で完全反射)")]
     [SerializeField] float refrectPower = 1f;
+    [SerializeField] float debugRayLength = 2f;
+
     #endregion
 
     /// <summary>
@@ -24,8 +26,10 @@ public class Mirror : MonoBehaviour
         Vector3 reflectDirection = Vector3.Reflect(comeDirection.normalized, flatNormal);
         //反射鏡度をかける(1未満で減衰反射)
         reflectDirection *= refrectPower;
+        
         //デバッグ表示
-        Debug.DrawRay(transform.position, reflectDirection * 2, Color.cyan, 1f);
+        Debug.DrawRay(transform.position, reflectDirection * debugRayLength, Color.cyan, 1f);
+        
         //reflectDirectionを返り値として返す
         return reflectDirection;
     }

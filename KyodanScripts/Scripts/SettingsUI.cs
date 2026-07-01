@@ -18,6 +18,9 @@ public class SettingsUI : MonoBehaviour
 
     [SerializeField] Slider seVolumeSlider; //SE音量スライダーを入れる変数
     [SerializeField] TextMeshProUGUI seVolumeText; //SE音量を表示するテキスト
+
+    [SerializeField] float maxBGM = 100f;
+    [SerializeField] float maxSE = 100f;
     #endregion
 
     void Start()
@@ -44,8 +47,8 @@ public class SettingsUI : MonoBehaviour
     {
         //数値をテキストに表示
         sensitivityValueText.text = Settings.Instance.Sensitivity.ToString("F0");
-        bgmVolumeText.text = (Settings.Instance.BgmVolume * 100).ToString("F0") + "%";
-        seVolumeText.text = (Settings.Instance.SeVolume * 100).ToString("F0") + "%";
+        bgmVolumeText.text = (Settings.Instance.BgmVolume * maxBGM).ToString("F0") + "%";
+        seVolumeText.text = (Settings.Instance.SeVolume * maxSE).ToString("F0") + "%";
     }
 
     /// <summary>
@@ -81,6 +84,6 @@ public class SettingsUI : MonoBehaviour
     /// <param name="value"></param>
     void OnSEValumeValueChanged(float value)
     {
-        Settings.Instance.SeVolume = value;
+        Settings.Instance.SEVolume = value;
     }
 }

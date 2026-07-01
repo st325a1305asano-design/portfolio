@@ -16,6 +16,11 @@ public class NpcController : MonoBehaviour
     private int currentPointIndex; //現在の巡回地点
 
     private Animator animator; //Animationを入れる変数
+    static readonly int Idle = Animator.StringToHash("Idle");
+    static readonly int Walk = Animator.StringToHash("Walk");
+    static readonly int Call = Animator.StringToHash("Call");
+    static readonly int Talk = Animator.StringToHash("Talk");
+    static readonly int Look = Animator.StringToHash("Look");
 
     /// <summary>
     /// NPCのステータス
@@ -85,23 +90,23 @@ public class NpcController : MonoBehaviour
     {
         if (npcState == NpcState.Idle)
         {
-            animator.SetTrigger("Idle");
+            animator.SetTrigger(Idle);
         }
         else if(npcState == NpcState.Walk)
         {
-            animator.SetTrigger("Walk");
+            animator.SetTrigger(Walk);
         }
         else if(npcState == NpcState.Call)
         {
-            animator.SetTrigger("Call");
+            animator.SetTrigger(Call);
         }
         else if(npcState == NpcState.Talk)
         {
-            animator.SetTrigger("Talk");
+            animator.SetTrigger(Talk);
         }
         else if(npcState == NpcState.Look)
         {
-            animator.SetTrigger("Look");
+            animator.SetTrigger(Look);
         }
     }
 }

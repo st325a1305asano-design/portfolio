@@ -9,6 +9,7 @@ public class SettingsPanelController : MonoBehaviour
 {
     #region　変数の宣言
     [SerializeField] GameObject settingsPanel; //設定パネル
+    [SerializeField] string pauseAction = "Pause";
 
     bool isOpen = false; //開閉管理フラグ
 
@@ -31,7 +32,7 @@ public class SettingsPanelController : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         { 
             // Tabキーで開閉（ゲーム中）　かつ　クイズをしていないなら
-            if (playerInput.actions["Pause"].WasPressedThisFrame() && !quizUIController.IsPlayingQuiz)
+            if (playerInput.actions[pauseAction].WasPressedThisFrame() && !quizUIController.IsPlayingQuiz)
             {
                 Toggle(); //トグル
             } 

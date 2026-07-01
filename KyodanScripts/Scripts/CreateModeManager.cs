@@ -65,7 +65,7 @@ public class CreateModeManager : MonoBehaviour
     void HandleModeSwitch()
     {
         //モード切替が押されたら
-        if (playerInput.actions["ToggleCreateMode"].triggered)
+        if (playerInput.actions[InputActionNames.InputActionToggleCreateMode].triggered)
         {
             //フラグを反転させる
             isCreateMode = !isCreateMode;
@@ -76,7 +76,7 @@ public class CreateModeManager : MonoBehaviour
             if (isCreateMode)
             {
                 //ActionMapsをCreateに変更
-                GameManager.Instance.SwitchActionMaps("Create");
+                GameManager.Instance.SwitchActionMaps("Create"); //ファティン：GameManagerのSwitchActionMapsメソッド内にCreateというものがないんだけど？
             }
             else
             {

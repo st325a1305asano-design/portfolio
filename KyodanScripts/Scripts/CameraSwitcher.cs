@@ -35,7 +35,7 @@ public class CameraSwitcher : MonoBehaviour
     void Update()
     {
         //ボタン入力を取得
-        if (playerInput.actions["SwitchCamera"].triggered == true)
+        if (playerInput.actions[InputActionNames.InputActionSwitchCamera].triggered == true)
         {
             //視点変更関数を呼び出す
             ToggleCamera();
@@ -47,7 +47,7 @@ public class CameraSwitcher : MonoBehaviour
         }
 
         //俯瞰視点　かつ　ボタン入力がされたら
-        if(isTopView && playerInput.actions["ChangeShowFloor"].triggered == true)
+        if(isTopView && playerInput.actions[InputActionNames.InputActionChangeShownFloor].triggered == true)
         {
             DecreaseVisibleFloor();
         }
@@ -69,7 +69,7 @@ public class CameraSwitcher : MonoBehaviour
             mapTopViewCamera.enabled = true;
 
             //Lookの入力を停止
-            playerInput.actions["Look"].Disable();
+            playerInput.actions[InputActionNames.Look].Disable();
         }
         //俯瞰視点→一人称
         else //SelectCamera.First;
@@ -81,7 +81,7 @@ public class CameraSwitcher : MonoBehaviour
             mapTopViewCamera.enabled= false;
 
             //Lookの入力を再開
-            playerInput.actions["Look"].Enable();
+            playerInput.actions[InputActionNames.Look].Enable();
         }
     }
 

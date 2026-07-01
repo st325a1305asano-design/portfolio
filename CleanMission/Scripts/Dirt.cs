@@ -7,26 +7,26 @@ public class Dirt : MonoBehaviour
 {
     #region •Ï”‚ÌéŒ¾
     //‚±‚Ì‰˜‚ê‚Ìí—Ş
-    public DirtType dirtType;
+    private DirtType dirtType;
 
     //³‰ğ‚ÌôÜ‚Ìí—Ş
-    public DetergentType correctType;
+    private DetergentType correctType;
 
     //İ’u‚³‚ê‚Ä‚¢‚é•”‰®‚Ìí—Ş
-    [SerializeField] public RoomType roomType;
+    [SerializeField] private RoomType roomType;
 
     [Header("Dirt")]
-    [SerializeField] public Sprite dirtImage; //‰˜‚ê‰æ‘œ
-    [SerializeField] public Sprite dirtImage2; //‰˜‚ê‰æ‘œ2
+    [SerializeField] private Sprite dirtImage; //‰˜‚ê‰æ‘œ
+    [SerializeField] private Sprite dirtImage2; //‰˜‚ê‰æ‘œ2
 
-    [SerializeField] public bool hasSecondImage; //“ñ‚Â–Ú‚Ì‰æ‘œ‚ğ‚Á‚Ä‚¢‚é‚©
+    [SerializeField] private bool hasSecondImage; //“ñ‚Â–Ú‚Ì‰æ‘œ‚ğ‚Á‚Ä‚¢‚é‚©
 
     [Header("Cleanig")]
-    [SerializeField] public Sprite cleaningImage; //‘|œ’†‚Ì‰æ‘œ
+    [SerializeField] private Sprite cleaningImage; //‘|œ’†‚Ì‰æ‘œ
 
     [Header("Cleaned")]
-    [SerializeField] public Sprite cleanedImage; //‘|œŒã‚Ì‰æ‘œ
-    [SerializeField] public Sprite cleanedImage2; //‘|œŒã‚Ì‰æ‘œ
+    [SerializeField] private Sprite cleanedImage; //‘|œŒã‚Ì‰æ‘œ
+    [SerializeField] private Sprite cleanedImage2; //‘|œŒã‚Ì‰æ‘œ
 
     [Header("DirtEffect")]
     [SerializeField] GameObject effect; //‰˜‚êƒGƒtƒFƒNƒg

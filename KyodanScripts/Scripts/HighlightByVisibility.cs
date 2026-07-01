@@ -11,6 +11,8 @@ public class HighlightByVisibility : MonoBehaviour
     [SerializeField] private Material normalMat; //通常マテリアル
     [SerializeField] private Material highlightMat; //強調表示マテリアル
 
+    [SerializeField] private float camViewPoint = 0.5f;
+
     private Renderer rend; //Rendererを入れる変数
     #endregion
 
@@ -44,7 +46,7 @@ public class HighlightByVisibility : MonoBehaviour
     {
         //画面中央の、カメラの少し前のワールド座標を変数fromに入れる
         Vector3 from = fpsCamera.ViewportToWorldPoint(
-            new Vector3(0.5f, 0.5f, fpsCamera.nearClipPlane)
+            new Vector3(camViewPoint, camViewPoint, fpsCamera.nearClipPlane)
         );
 
         Vector3 to = rend.bounds.center; //オブジェクトの見た目の中央座標を変数toに入れる

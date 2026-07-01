@@ -12,7 +12,6 @@ public class BulletShooter : MonoBehaviour
     [SerializeField] GameObject bulletPrefab; //弾丸のPrefab
     [SerializeField] Transform firePoint; //弾丸の生成位置
     [SerializeField] int ammo = 3; //残弾数
-
     PlayerInput playerInput; //PlayerInputを入れる変数
     GameObject currentBullet; //現在ある弾丸を入れる変数
 
@@ -33,7 +32,7 @@ public class BulletShooter : MonoBehaviour
     {
         //(残弾がある または チュートリアル) かつ　Fireキーを押されたなら
         if ((CanShoot() == true || SceneManager.GetActiveScene().buildIndex == (int)SceneName.Tutorial) 
-            && playerInput.actions["Fire"].triggered)
+            && playerInput.actions[InputActionNames.InputActionFire].triggered)
         {
             Fire(); //弾丸を発射
         }

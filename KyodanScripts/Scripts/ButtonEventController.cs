@@ -7,7 +7,7 @@ using static Enums;
 /// <summary>
 /// ボタン押下時処理
 /// </summary>
-public class Button : MonoBehaviour
+public class ButtonEventController : MonoBehaviour
 {
     #region 変数の宣言
     //読み込むシーン名

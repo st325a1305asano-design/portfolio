@@ -23,13 +23,13 @@ public class Warp : MonoBehaviour
         Debug.Log("ゲートに触れました");
 
         //触れたオブジェクトのタグがBulletなら
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag(GameTags.Bullet))
         {
             WarpProcess(other);
             Debug.Log("ワープさせます");
         }
         //触れたオブジェクトのタグがPlayerなら
-        else if (other.gameObject.CompareTag("Player"))
+        else if (other.gameObject.CompareTag(GameTags.Player))
         {
             StartCoroutine(MovePlayerPos(other));
         }
@@ -56,7 +56,7 @@ public class Warp : MonoBehaviour
         other.gameObject.transform.rotation = Quaternion.Euler(warpedRot); //回転させる
 
         //タグがBulletのとき
-        if(other.gameObject.CompareTag("Bullet"))
+        if(other.gameObject.CompareTag(GameTags.Bullet))
         {
             //正面を変更する処理を呼ぶ
             other.GetComponent<Bullet>().ChangeDirectionByWarp(warpPoint);

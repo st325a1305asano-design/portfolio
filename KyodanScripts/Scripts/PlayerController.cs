@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     bool isGrounded; //地面に接触しているか
 
     Animator animator; //三人称のアニメーター
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
 
     [SerializeField]
     Animator fpsAnimator; //一人称のアニメーター
@@ -80,7 +83,7 @@ public class PlayerController : MonoBehaviour
     void HandleMovement()
     {
         //ボタン入力を取得
-        moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
+        moveInput = playerInput.actions[InputActionNames.InputActionMove].ReadValue<Vector2>();
 
         //入力方向をカメラ基準(プレイヤーの向き)にする
         Vector3 forward = transform.forward;
@@ -118,7 +121,7 @@ public class PlayerController : MonoBehaviour
     void HandleJump()
     {
         // ジャンプ入力を取得
-        if (playerInput.actions["Jump"].triggered && isGrounded)
+        if (playerInput.actions[InputActionNames.InputActionJump].triggered && isGrounded)
         {
             //物理公式(等加速度運動) v = √(2 * g * h)
             //上に飛びたいためgravityに-をかける
@@ -137,11 +140,11 @@ public class PlayerController : MonoBehaviour
         speedValue = new Vector3(moveDirection.x, 0, moveDirection.z).magnitude;
 
         //アニメーターの項目にセット
-        animator.SetFloat("Speed", speedValue);
-        animator.SetBool("IsGrounded", characterController.isGrounded);
+        animator.SetFloat(Speed, speedValue);
+        animator.SetBool(IsGrounded, characterController.isGrounded);
 
-        if (playerInput.actions["Jump"].triggered && isGrounded )
-            animator.SetTrigger("Jump");
+        if (playerInput.actions[InputActionNames.InputActionJump].triggered && isGrounded )
+            animator.SetTrigger(Jump);
     }
 
     /// <summary>
@@ -153,10 +156,10 @@ public class PlayerController : MonoBehaviour
         speedValue = new Vector3(moveDirection.x, 0, moveDirection.z).magnitude;
 
         //アニメーターの項目にセット
-        fpsAnimator.SetFloat("Speed", speedValue);
-        fpsAnimator.SetBool("IsGrounded", characterController.isGrounded);
+        fpsAnimator.SetFloat(Speed, speedValue);
+        fpsAnimator.SetBool(IsGrounded, characterController.isGrounded);
 
-        if (playerInput.actions["Jump"].triggered && isGrounded)
-            fpsAnimator.SetTrigger("Jump");
+        if (playerInput.actions[InputActionNames.InputActionJump].triggered && isGrounded)
+            fpsAnimator.SetTrigger(Jump);
     }
 }

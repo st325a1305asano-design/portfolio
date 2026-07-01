@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Enums;
@@ -111,20 +112,20 @@ public class Bullet : MonoBehaviour
                 ChangeDirectionByMirror(mirror, hit);
             }
             //当たったオブジェクトのタグが花瓶なら
-            else if (hit.collider.gameObject.CompareTag("Vase"))
+            else if (hit.collider.gameObject.CompareTag(GameTags.Vase))
             {
                 HitVase(hit);
             }
             //人なら
-            else if (hit.collider.gameObject.CompareTag("Character"))
+            else if (hit.collider.gameObject.CompareTag(GameTags.Character))
             {
                 HitCharacter();
             }
             else
             {
                 //タグがBrokenVaseなら処理を止める
-                if (hit.collider.gameObject.CompareTag("BrokenVase") || 
-                        hit.collider.gameObject.CompareTag("Warp")) return;
+                if (hit.collider.gameObject.CompareTag(GameTags.BrokenVase) || 
+                        hit.collider.gameObject.CompareTag(GameTags.Warp)) return;
 
                 //このオブジェクトを壊す
                 Destroy(gameObject);

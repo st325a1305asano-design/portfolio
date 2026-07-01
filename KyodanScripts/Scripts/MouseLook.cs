@@ -34,7 +34,7 @@ public class MouseLook : MonoBehaviour
         if (playerInput == null) return;
 
         //Lookアクションからマウスの移動量を取得
-        Vector2 lookInput = playerInput.actions["Look"].ReadValue<Vector2>();
+        Vector2 lookInput = playerInput.actions[InputActionNames.InputActionLook].ReadValue<Vector2>();
 
         //1フレームで動く視点の量
         float mouseX = lookInput.x * Settings.Instance.Sensitivity * Time.deltaTime;

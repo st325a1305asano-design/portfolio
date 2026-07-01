@@ -15,18 +15,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] float startTime = 600f; //開始時間
     [SerializeField] float dangerInterval = 25f; //危険洗剤のインターバル
 
-    float remaingTime; //現在時間
+    float remainingTime; //現在時間
 
     int totalDirts; //合計汚れ数
     int cleanedCount; //正答数
+    int cleanedRate = 100;
     int mistakeCount; //ミス数
+    int mistakesLimit = * 20; //ミス数＊20
 
     RoomChemicalState[] roomStates; //各部屋の状態保存用配列
 
     bool isGameOver = false; //ゲーム終了管理フラグ
     #endregion
 
-    public float GetRemainingTime() => remaingTime; //現在時間のゲッター
+    public float GetRemainingTime() => remainingTime; //現在時間のゲッター
     public bool GetIsGameOver() => isGameOver; //ゲーム終了判定フラグのゲッター
 
     #region 開始処理
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        remaingTime = startTime; //現在時間に開始時間を代入する
+        remainingTime = startTime; //現在時間に開始時間を代入する
 
         //EnumsスクリプトのRoomTypeの長さを取得
         int roomCount = System.Enum.GetValues(typeof(RoomType)).Length;
@@ -59,12 +61,12 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver) return; //ゲームが終了しているなら処理を止める
 
-        remaingTime -= Time.deltaTime; //カウントダウン
+        remainingTime -= Time.deltaTime; //カウントダウン
 
         //現在時刻が0以下になったら
-        if (remaingTime <= 0)
+        if (remainingTime <= 0)
         {
-            remaingTime = 0; //現在時間を0にする
+            remainingTime = 0; //現在時間を0にする
             CheckGameClear(); //クリア判定
         }
     }
@@ -136,7 +138,7 @@ public class GameManager : MonoBehaviour
     void CheckGameClear()
     {
         //正答数が合計汚れ数を超えるか時間切れになったら
-        if(cleanedCount >= totalDirts || remaingTime <= 0)
+        if(cleanedCount >= totalDirts || remainingTime <= 0)
         { 
             isGameOver = true; //ゲーム終了
 
@@ -175,7 +177,7 @@ public class GameManager : MonoBehaviour
         }
 
         //リザルトUI表示
-        ResultUIController.Instance.ShowResult(score, cleanedCount, totalDirts, remaingTime);
+        ResultUIController.Instance.ShowResult(score, cleanedCount, totalDirts, remainingTime);
 
         Debug.Log("score:" + score);
     }
@@ -186,9 +188,9 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     int CalculateScore()
     {
-        int baseScore = cleanedCount * 100; //正答数＊100
-        int timeBonus = Mathf.FloorToInt(remaingTime); //残り時間ボーナス(小数切り捨て)
-        int penalty = mistakeCount * 20; //ミス数＊20
+        int baseScore = cleanedCount * cleanedRate; 
+        int timeBonus = Mathf.FloorToInt(remainingTime); //残り時間ボーナス(小数切り捨て)
+        int penalty = mistakeCount * mistakesLimit; 
 
         return baseScore + timeBonus - penalty; //最終スコア
     }

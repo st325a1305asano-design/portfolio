@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 5f; //移動速度
     [SerializeField] float onGroundGravity = -2f; //地面に軽く押しつけるよう
     [SerializeField] private float gravity = -9.81f; //重力の強さ
+
+    [SerializeField] private string interactAction = "Interact";
     float verticalVelocity;
     float mouseSensitivity; //マウス感度
 
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask dirtLayer; //汚れレイヤー
 
     float xRotation = 0f; //x軸回転量
+    float xMaxRotation = 90f; //最大回転
     CharacterController characterController; //キャラクター操作コンポーネント
     PlayerInput playerInput; //入力管理コンポーネント
     PlayerStates playerStates; //プレイヤー状態
@@ -30,7 +33,9 @@ public class PlayerController : MonoBehaviour
     enum PlayerStates
     {
         Exploring,  //探索中
-        Interacting //インタラクト中
+        Interacting, //インタラクト中
+        Idle, //待機
+        Locked
     }
     #endregion
 
@@ -54,17 +59,17 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// ステータス変更 0:Exploring(探索) 1:Intaracting(インタラクト)
     /// </summary>
-    /// <param name="num"></param>
-    public void ChangeStates(int num)
+    /// <param name="state"></param>
+    public void ChangeStates(PlayerStates state)
     {
-        if (num == 0)
+        if (state == PlayerStates.Idle)
         {
             //探索状態にしカーソル非表示
             playerStates = PlayerStates.Exploring;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-        else if (num == 1)
+        else if (state == PlayerStates.Locked)
         {
             //インタラクト状態にしカーソル表示
             playerStates = PlayerStates.Interacting;
@@ -149,7 +154,7 @@ public class PlayerController : MonoBehaviour
         }
 
         xRotation -= lookY; //カメラ上下順転
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); //上下視点上限
+        xRotation = Mathf.Clamp(xRotation, -xMaxRotation, xMaxRotation); //上下視点上限
 
         //視点回転
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0); //上下
@@ -170,7 +175,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log(hit.collider.name);
 
             //インタラクトが押されたら
-            if (playerInput.actions["Interact"].WasPressedThisFrame())
+            if (playerInput.actions[interactAction].WasPressedThisFrame())
             {
                 Debug.Log("汚れにインタラクトしました");
 
